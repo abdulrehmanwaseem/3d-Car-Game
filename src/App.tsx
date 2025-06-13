@@ -1,8 +1,17 @@
+import { Canvas } from "@react-three/fiber";
+import Experience from "./components/Experience";
+
 const App = () => {
   return (
-  <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>  
+       <Canvas
+        shadows
+        camera={{ position: [8, 5, 4],   near: 0.1,
+        far: 100,
+        fov: 30,  
+}}
+      >
+        <Experience />
+      </Canvas>
   )
 }
 
