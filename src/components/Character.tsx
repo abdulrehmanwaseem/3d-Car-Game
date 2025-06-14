@@ -63,6 +63,7 @@ type GLTFResult = GLTF & {
 export function Character(props: React.JSX.IntrinsicElements["group"]) {
   const { scene } = useGLTF("/models/character.glb");
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
+
   const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
 
   return (

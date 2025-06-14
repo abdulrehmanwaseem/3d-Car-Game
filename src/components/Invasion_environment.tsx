@@ -92,14 +92,25 @@ export function InvasionEnvironment(
 
   useEffect(() => {
     actions.ufo_01?.play();
-  }, [actions.ufo_01]);
+
+    group.current?.traverse((child) => {
+      if (
+        (child as THREE.Mesh).isMesh &&
+        child.name !== "UFO" &&
+        !child.name.includes("Building")
+      ) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [actions]);
 
   return (
-    <group ref={group} castShadow receiveShadow {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Scene_1">
           <group name="invasion">
-            <group name="Background_Decor">
+            <group name="Background_Decoar">
               <group name="Background_Buildings">
                 <mesh
                   name="UFO"
