@@ -1,4 +1,3 @@
-# 3d Environment Game
+# Zombie Invasion Game
 
-This is a React, R3F, Three js Environment Game, Where you can enjoy different Environment on web
-
+This is a React, R3F, Three js Zombie Invasion Game.
