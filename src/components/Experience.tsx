@@ -149,10 +149,18 @@ const Experience = () => {
         <KeyboardControls map={keyboardMap}>
           <Ecctrl
             animated
-            position={[-5, 20, -15]}
             capsuleHalfHeight={0.05}
             scale={1.5}
             floatHeight={0.49}
+            position={[0, 25, -21]}
+            jumpVel={3}
+            {...{
+              camMaxDis: -10,
+              camMinDis: -1,
+              camUpLimit: 1.3,
+              camLowLimit: -0.5,
+              camInitDir: { x: 0.25, y: 0 },
+            }}
           >
             <EcctrlAnimation
               characterURL={characterURL}
