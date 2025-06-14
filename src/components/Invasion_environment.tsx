@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 .\public\models\invasion_environment.glb -t
 */
 
 import * as THREE from "three";
-import React from "react";
+import React, { useEffect } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 
@@ -81,14 +81,21 @@ type GLTFResult = GLTF & {
   animations: GLTFAction[];
 };
 
-export function InvasionEnvironment(props: JSX.IntrinsicElements["group"]) {
-  const group = React.useRef<THREE.Group>();
+export function InvasionEnvironment(
+  props: React.JSX.IntrinsicElements["group"]
+) {
+  const group = React.useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     "/models/invasion_environment.glb"
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
   const { actions } = useAnimations(animations, group);
+
+  useEffect(() => {
+    actions.ufo_01?.play();
+  }, [actions.ufo_01]);
+
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} castShadow receiveShadow {...props} dispose={null}>
       <group name="Scene">
         <group name="Scene_1">
           <group name="invasion">
@@ -305,7 +312,7 @@ export function InvasionEnvironment(props: JSX.IntrinsicElements["group"]) {
                 <mesh
                   name="Billboards_1"
                   geometry={nodes.Billboards_1.geometry}
-                  material={materials["Logo 1"]}
+                  material={materials.Default_Material}
                 />
                 <mesh
                   name="Billboards_2"
@@ -408,11 +415,6 @@ export function InvasionEnvironment(props: JSX.IntrinsicElements["group"]) {
             <group name="Walls_StaticMeshComponent0" />
           </group>
         </group>
-        <mesh
-          name="Cube"
-          geometry={nodes.Cube.geometry}
-          material={materials.Material}
-        />
       </group>
     </group>
   );
