@@ -18,8 +18,7 @@ const App = () => {
 
   return (
     <>
-      <Leva collapsed />
-
+      {/* <Leva collapsed /> */}
       <Canvas
         shadows={shadows ? { type: THREE.PCFSoftShadowMap } : false}
         camera={{ position: [0, 8, 15], near: 0.1, fov: 60, far: 200 }}

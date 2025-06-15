@@ -1,8 +1,13 @@
 {
   "files": [],
+  "exclude": [
+    "node_modules",
+    "node_modules/*",
+    "node_modules/ecctrl",
+    "ecctrl"
+  ],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "exclude": ["node_modules", "node_modules/*"]
+  ]
 }
