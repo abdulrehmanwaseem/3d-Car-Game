@@ -1,81 +1,15 @@
 import { KeyboardControls } from "@react-three/drei";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { useLoader, useThree } from "@react-three/fiber";
 import { Physics, RigidBody } from "@react-three/rapier";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect } from "react";
 import * as THREE from "three";
 import { Character } from "./Character";
 import { InvasionEnvironment } from "./Invasion_environment";
 import { PakistanFlag } from "./Pakistan_flag";
+import AtmosphericEffects from "./AtmosphericEffects";
 
 useLoader.preload(THREE.TextureLoader, "/models/Textures/sky.jpg");
-
-const UFOBeam = () => {
-  const beamRef = useRef();
-
-  useFrame((state) => {
-    if (beamRef.current) {
-      beamRef.current.rotation.y += 0.01;
-      beamRef.current.material.opacity =
-        0.3 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
-    }
-  });
-
-  return (
-    <mesh ref={beamRef} position={[0, 15, -1]}>
-      <coneGeometry args={[8, 30, 32, 1, true]} />
-      <meshBasicMaterial
-        color="#00ff88"
-        transparent
-        opacity={0.3}
-        side={THREE.DoubleSide}
-        blending={THREE.AdditiveBlending}
-      />
-    </mesh>
-  );
-};
-
-const FloatingParticles = () => {
-  const particlesRef = useRef();
-  const particleCount = 200;
-
-  const particles = useMemo(() => {
-    const positions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 50;
-      positions[i * 3 + 1] = Math.random() * 30;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
-    }
-    return positions;
-  }, []);
-
-  useFrame((state) => {
-    if (particlesRef.current) {
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-    }
-  });
-
-  return (
-    <points ref={particlesRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particleCount}
-          array={particles}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.1}
-        color="#88ff88"
-        transparent
-        opacity={0.6}
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-};
 
 const Experience = () => {
   const characterURL = "/models/character.glb";
@@ -87,7 +21,6 @@ const Experience = () => {
     { name: "rightward", keys: ["ArrowRight", "KeyD"] },
     { name: "jump", keys: ["Space"] },
     { name: "run", keys: ["Shift"] },
-    // Optional animation key map
     { name: "action1", keys: ["1"] },
     { name: "action2", keys: ["KeyF"] },
     { name: "action3", keys: ["KeyE"] },
@@ -142,8 +75,8 @@ const Experience = () => {
         shadow-mapSize={[2048, 2048]}
       />
       {/* Atmospheric Effects */}
-      <UFOBeam />
-      <FloatingParticles />
+      <AtmosphericEffects />
+
       <Physics>
         <RigidBody type="fixed" colliders="trimesh">
           <InvasionEnvironment scale={1} position={[0, 0, 0]} />

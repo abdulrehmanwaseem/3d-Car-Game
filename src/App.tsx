@@ -19,7 +19,7 @@ const App = () => {
           toneMappingExposure: 1.0,
         }}
       >
-        {/* <Perf /> */}
+        <Perf />
         <Suspense fallback={null}>
           <Experience />
         </Suspense>

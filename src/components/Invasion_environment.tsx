@@ -95,24 +95,24 @@ export function InvasionEnvironment(
     "/models/Textures/ZombieInvasionBanner.png"
   );
 
-  useEffect(() => {
-    actions.ufo_01?.play();
+  // useEffect(() => {
+  //   actions.ufo_01?.play();
 
-    group.current?.traverse((child) => {
-      if (
-        (child as THREE.Mesh).isMesh &&
-        child.name !== "UFO" &&
-        !child.name.includes("Building")
-      ) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-  }, [actions]);
+  //   group.current?.traverse((child) => {
+  //     if (
+  //       (child as THREE.Mesh).isMesh &&
+  //       child.name !== "UFO" &&
+  //       !child.name.includes("Building")
+  //     ) {
+  //       child.castShadow = true;
+  //       child.receiveShadow = true;
+  //     }
+  //   });
+  // }, [actions]);
 
   bannerTex.wrapT = THREE.RepeatWrapping;
-  bannerTex.repeat.set(1, 2.9); // ≈1.333
-  bannerTex.offset.set(-0.01, 0); // ≈-0.333
+  bannerTex.repeat.set(1, 2.9);
+  bannerTex.offset.set(-0.01, 0);
 
   return (
     <group ref={group} {...props} dispose={null}>
