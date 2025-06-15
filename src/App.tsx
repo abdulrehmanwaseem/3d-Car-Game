@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import Experience from "./components/Experience";
 import { Suspense } from "react";
@@ -6,12 +7,21 @@ import { Perf } from "r3f-perf";
 import { Leva } from "leva";
 
 const App = () => {
+  const [shadows, setShadows] = useState(true);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setShadows(false);
+    }, 800);
+    return () => clearTimeout(id);
+  }, []);
+
   return (
     <>
       <Leva collapsed />
 
       <Canvas
-        shadows={{ type: THREE.PCFSoftShadowMap }}
+        shadows={shadows ? { type: THREE.PCFSoftShadowMap } : false}
         camera={{ position: [0, 8, 15], near: 0.1, fov: 60, far: 200 }}
         gl={{
           antialias: true,
@@ -21,7 +31,7 @@ const App = () => {
       >
         <Perf />
         <Suspense fallback={null}>
-          <Experience />
+          <Experience shadows={shadows} />
         </Suspense>
       </Canvas>
     </>

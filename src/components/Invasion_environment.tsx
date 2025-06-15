@@ -81,9 +81,10 @@ type GLTFResult = GLTF & {
   animations: GLTFAction[];
 };
 
-export function InvasionEnvironment(
-  props: React.JSX.IntrinsicElements["group"]
-) {
+export function InvasionEnvironment({
+  shadows = false,
+  ...props
+}: React.JSX.IntrinsicElements["group"] & { shadows?: boolean }) {
   const group = React.useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     "/models/invasion_environment.glb"
@@ -95,20 +96,22 @@ export function InvasionEnvironment(
     "/models/Textures/ZombieInvasionBanner.png"
   );
 
-  // useEffect(() => {
-  //   actions.ufo_01?.play();
+  useEffect(() => {
+    actions.ufo_01?.play();
 
-  //   group.current?.traverse((child) => {
-  //     if (
-  //       (child as THREE.Mesh).isMesh &&
-  //       child.name !== "UFO" &&
-  //       !child.name.includes("Building")
-  //     ) {
-  //       child.castShadow = true;
-  //       child.receiveShadow = true;
-  //     }
-  //   });
-  // }, [actions]);
+    if (!shadows) return;
+
+    group.current?.traverse((child) => {
+      if (
+        (child as THREE.Mesh).isMesh &&
+        child.name !== "UFO" &&
+        !child.name.includes("Building")
+      ) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [actions, shadows]);
 
   bannerTex.wrapT = THREE.RepeatWrapping;
   bannerTex.repeat.set(1, 2.9);

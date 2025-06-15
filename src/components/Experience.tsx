@@ -11,7 +11,7 @@ import AtmosphericEffects from "./AtmosphericEffects";
 
 useLoader.preload(THREE.TextureLoader, "/models/Textures/sky.jpg");
 
-const Experience = () => {
+const Experience = ({ shadows }: { shadows: boolean }) => {
   const characterURL = "/models/character.glb";
 
   const keyboardMap = [
@@ -79,7 +79,11 @@ const Experience = () => {
 
       <Physics>
         <RigidBody type="fixed" colliders="trimesh">
-          <InvasionEnvironment scale={1} position={[0, 0, 0]} />
+          <InvasionEnvironment
+            shadows={shadows}
+            scale={1}
+            position={[0, 0, 0]}
+          />
           <PakistanFlag position={[2.68, -0.25, -18.12]} scale={3.9} />
           <PakistanFlag position={[-2.63, -0.25, -18.12]} scale={3.9} />
         </RigidBody>
