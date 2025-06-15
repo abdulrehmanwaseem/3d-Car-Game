@@ -12,7 +12,7 @@ const App = () => {
   useEffect(() => {
     const id = setTimeout(() => {
       setShadows(false);
-    }, 800);
+    }, 850);
     return () => clearTimeout(id);
   }, []);
 
