@@ -1,16 +1,14 @@
-import {
-  ContactShadows,
-  Environment,
-  KeyboardControls,
-  OrbitControls,
-} from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { KeyboardControls } from "@react-three/drei";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Physics, RigidBody } from "@react-three/rapier";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Character } from "./Character";
 import { InvasionEnvironment } from "./Invasion_environment";
+import { PakistanFlag } from "./Pakistan_flag";
+
+useLoader.preload(THREE.TextureLoader, "/models/Textures/sky.jpg");
 
 const UFOBeam = () => {
   const beamRef = useRef();
@@ -108,11 +106,18 @@ const Experience = () => {
     action2: "attack-melee-right",
     action3: "attack-kick-right",
   };
+
+  const texture = useLoader(THREE.TextureLoader, "/models/Textures/sky.jpg");
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+  const { scene } = useThree();
+  useEffect(() => {
+    scene.background = texture;
+  }, [scene, texture]);
+
   return (
     <>
-      {/* <Environment preset="sunset" /> */}
       <ambientLight intensity={1} />
-
       <directionalLight
         intensity={1.2}
         castShadow
@@ -127,7 +132,6 @@ const Experience = () => {
         shadow-bias={-0.0005}
         color="#ffd0b8"
       />
-
       <spotLight
         position={[0, 31, -1]}
         angle={0.6}
@@ -137,14 +141,14 @@ const Experience = () => {
         castShadow
         shadow-mapSize={[2048, 2048]}
       />
-
       {/* Atmospheric Effects */}
       <UFOBeam />
       <FloatingParticles />
-
       <Physics>
         <RigidBody type="fixed" colliders="trimesh">
           <InvasionEnvironment scale={1} position={[0, 0, 0]} />
+          <PakistanFlag position={[2.68, -0.25, -18.12]} scale={3.9} />
+          <PakistanFlag position={[-2.63, -0.25, -18.12]} scale={3.9} />
         </RigidBody>
         <KeyboardControls map={keyboardMap}>
           <Ecctrl
@@ -152,14 +156,15 @@ const Experience = () => {
             capsuleHalfHeight={0.05}
             scale={1.5}
             floatHeight={0.49}
-            position={[0, 25, -21]}
+            position={[-25, 25, -18]}
             jumpVel={3}
             {...{
+              characterInitDir: 4.5, // Character initial facing direction (in rad)
               camMaxDis: -10,
               camMinDis: -1,
               camUpLimit: 1.3,
               camLowLimit: -0.5,
-              camInitDir: { x: 0.25, y: 0 },
+              camInitDir: { x: 0.23, y: 1.3 },
             }}
           >
             <EcctrlAnimation

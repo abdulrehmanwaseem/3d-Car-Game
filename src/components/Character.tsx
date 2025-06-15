@@ -5,6 +5,7 @@ Command: npx gltfjsx@6.5.3 .\public\models\character.glb -t
 
 import { useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
+import { useControls } from "leva";
 import React from "react";
 import * as THREE from "three";
 import type { GLTF } from "three-stdlib";
